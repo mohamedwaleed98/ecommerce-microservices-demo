@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="robots" content="all,follow">
+    <meta name="googlebot" content="index,follow,snippet,archive">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="FreshMart Demo Grocery App">
+    <meta name="author" content="Ondrej Svestka | ondrejsvestka.cz">
+    <meta name="keywords" content="grocery, supermarket, delivery, checkout">
+
+    <title>
+        FreshMart
+    </title>
+
+    <meta name="keywords" content="">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100'
+          rel='stylesheet' type='text/css'>
+
+    <!-- styles -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+
+    <!-- theme stylesheet -->
+    <link href="css/style.blue.css" rel="stylesheet" id="theme-stylesheet">
+
+    <!-- your stylesheet with modifications -->
+    <link href="css/custom.css" rel="stylesheet">
+
+    <script src="js/respond.min.js"></script>
+
+    <link rel="shortcut icon" href="favicon.png">
+
+</head>
+
+<body>
+
+<div id="topbar"></div>
+<div id="navbar"></div>
+
+<div id="all">
+
+    <div id="content">
+        <div class="container">
+
+            <div class="col-md-12">
+                <ul class="breadcrumb">
+                    <li><a href="index.html">Home</a>
+                    </li>
+                    <li>Checkout - Delivery method</li>
+                </ul>
+            </div>
+
+            <div class="col-md-9" id="checkout">
+
+                <div class="box">
+                    <form method="post" action="checkout3.html">
+                        <h1>Checkout - Delivery method</h1>
+                        <ul class="nav nav-pills nav-justified">
+                            <li><a href="checkout1.html"><i
+                                    class="fa fa-map-marker"></i><br>Delivery address</a>
+                            </li>
+                            <li class="active"><a href="#"><i
+                                    class="fa fa-truck"></i><br>Delivery method</a>
+                            </li>
+                            <li class="disabled"><a href="#"><i
+                                    class="fa fa-money"></i><br>Payment
+                                method</a>
+                            </li>
+                            <li class="disabled"><a href="#"><i
+                                    class="fa fa-eye"></i><br>Order review</a>
+                            </li>
+                        </ul>
+
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="box shipping-method">
+
+                                        <h4>Standard delivery</h4>
+
+                                        <p>Affordable delivery for your everyday grocery order.</p>
+
+                                        <div class="box-footer text-center">
+
+                                            <input type="radio" name="delivery"
+                                                   value="delivery1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="box shipping-method">
+
+                                        <h4>Next day delivery</h4>
+
+                                        <p>Receive your groceries on the next day.</p>
+
+                                        <div class="box-footer text-center">
+
+                                            <input type="radio" name="delivery"
+                                                   value="delivery2">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="box shipping-method">
+
+                                        <h4>Express delivery</h4>
+
+                                        <p>Fastest available option for urgent grocery needs.</p>
+
+                                        <div class="box-footer text-center">
+
+                                            <input type="radio" name="delivery"
+                                                   value="delivery3">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="box-footer">
+                            <div class="pull-left">
+                                <a href="checkout1.html" class="btn btn-default"><i
+                                        class="fa fa-chevron-left"></i> Back to
+                                    delivery address</a>
+                            </div>
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-primary">
+                                    Continue to payment method <i
+                                        class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="box" id="order-summary">
+                    <div class="box-header">
+                        <h3>Order summary</h3>
+                    </div>
+                    <p class="text-muted">Delivery and additional costs are
+                        calculated based on the values you have entered.</p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>Order subtotal</td>
+                                <th>$446.00</th>
+                            </tr>
+                            <tr>
+                                <td>Delivery</td>
+                                <th>$10.00</th>
+                            </tr>
+                            <tr>
+                                <td>Tax</td>
+                                <th>$0.00</th>
+                            </tr>
+                            <tr class="total">
+                                <td>Total</td>
+                                <th>$456.00</th>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="footer"></div>
+</div>
+
+
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.cookie.js"></script>
+<script src="js/waypoints.min.js"></script>
+<script src="js/modernizr.js"></script>
+<script src="js/bootstrap-hover-dropdown.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/front.js"></script>
+<script src="js/jquery.query-object.js"></script>
+<script src="js/client.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            contentType: "application/json; charset=utf-8"
+        });
+
+        console.log("Loading components for checkout2.html");
+        $("#topbar").load("topbar.html");
+        $("#navbar").load("navbar.html");
+        $("#footer").load("footer.html");
+    })
+</script>
+
+</body>
+
+</html>
