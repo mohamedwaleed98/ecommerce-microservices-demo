@@ -1671,3 +1671,25 @@ address {
   color: #fff;
   text-decoration: none;
 }
+.navbar-brand img {
+  height: 40px !important;
+  width: auto !important;
+  max-width: 180px;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.navbar-brand.home {
+  display: flex;
+  align-items: center;
+  height: 70px;
+  overflow: hidden;
+}
+
+.navbar-brand.home .hidden-xs {
+  height: 40px !important;
+}
+
+.navbar-brand.home .visible-xs {
+  height: 30px !important;
+}
