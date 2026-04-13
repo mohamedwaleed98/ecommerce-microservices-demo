@@ -48,13 +48,13 @@ jobs:
 
       - name: Apply base manifests
         run: |
-          kubectl apply -f deploy/kubernetes/catalogue-db-deployment.yaml
-          kubectl apply -f deploy/kubernetes/catalogue-db-service.yaml
-          kubectl apply -f deploy/kubernetes/catalogue-deployment.yaml
-          kubectl apply -f deploy/kubernetes/catalogue-service.yaml
-          kubectl apply -f deploy/kubernetes/front-end-deployment.yaml
-          kubectl apply -f deploy/kubernetes/front-end-service.yaml
-          kubectl apply -f deploy/kubernetes/ingress.yaml
+          kubectl apply -f deploy/k8s/catalogue-db-deployment.yaml
+          kubectl apply -f deploy/k8s/catalogue-db-service.yaml
+          kubectl apply -f deploy/k8s/catalogue-deployment.yaml
+          kubectl apply -f deploy/k8s/catalogue-service.yaml
+          kubectl apply -f deploy/k8s/front-end-deployment.yaml
+          kubectl apply -f deploy/k8s/front-end-service.yaml
+          kubectl apply -f deploy/k8s/ingress.yaml
 
       - name: Update catalogue-db image
         run: |
