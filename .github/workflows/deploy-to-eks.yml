@@ -45,7 +45,7 @@ jobs:
 
       - name: Apply namespace
         run: |
-          kubectl apply -f deploy/kubernetes/namespace.yaml
+          kubectl apply -f deploy/k8s/namespace.yaml
 
       - name: Apply base manifests
         run: |
