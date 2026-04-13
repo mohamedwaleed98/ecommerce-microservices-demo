@@ -43,18 +43,22 @@ jobs:
             --region "$AWS_REGION" \
             --name "$CLUSTER_NAME"
 
+      - name: Debug manifest files
+        run: |
+          find deploy -maxdepth 3 -type f | sort
+
       - name: Apply namespace
         run: |
           kubectl apply -f deploy/k8s/namespace.yaml
 
       - name: Apply base manifests
         run: |
-          kubectl apply -f deploy/k8s/catalogue-db-deploy.yaml
-          kubectl apply -f deploy/k8s/catalogue-db-svc.yaml
-          kubectl apply -f deploy/k8s/catalogue-deploy.yaml
-          kubectl apply -f deploy/k8s/catalogue-svc.yaml
-          kubectl apply -f deploy/k8s/frontend-deploy.yaml
-          kubectl apply -f deploy/k8s/frontend-svc.yaml
+          kubectl apply -f deploy/k8s/catalogue-db-deployment.yaml
+          kubectl apply -f deploy/k8s/catalogue-db-service.yaml
+          kubectl apply -f deploy/k8s/catalogue-deployment.yaml
+          kubectl apply -f deploy/k8s/catalogue-service.yaml
+          kubectl apply -f deploy/k8s/frontend-deployment.yaml
+          kubectl apply -f deploy/k8s/frontend-service.yaml
           kubectl apply -f deploy/k8s/ingress.yaml
 
       - name: Update catalogue-db image
@@ -63,15 +67,21 @@ jobs:
             catalogue-db=$ECR_REGISTRY/catalogue-db:latest \
             -n $NAMESPACE
 
-      - name: Update frontend image
+      - name: Update catalogue image
+        run: |
+          kubectl set image deployment/catalogue \
+            catalogue=$ECR_REGISTRY/catalogue:latest \
+            -n $NAMESPACE
+
+      - name: Update front-end image
         run: |
           kubectl set image deployment/front-end \
             front-end=$ECR_REGISTRY/front-end:latest \
             -n $NAMESPACE
 
-      - name: Restart catalogue deployment
+      - name: Restart front-end
         run: |
-          kubectl rollout restart deployment/catalogue -n $NAMESPACE
+          kubectl rollout restart deployment/front-end -n $NAMESPACE
 
       - name: Wait for rollouts
         run: |

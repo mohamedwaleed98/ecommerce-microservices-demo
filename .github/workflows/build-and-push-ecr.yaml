@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "app/front-end/**"
-      - "app/catalogue/docker/catalogue-db/**"
+      - "app/catalogue/**"
       - ".github/workflows/build-and-push-ecr.yml"
 
 permissions:
@@ -44,6 +44,15 @@ jobs:
             -t $ECR_REGISTRY/catalogue-db:latest \
             -f app/catalogue/docker/catalogue-db/Dockerfile \
             app/catalogue/docker/catalogue-db \
+            --push
+
+      - name: Build and push catalogue
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -t $ECR_REGISTRY/catalogue:latest \
+            -f app/catalogue/docker/catalogue/Dockerfile \
+            app/catalogue \
             --push
 
       - name: Build and push front-end
