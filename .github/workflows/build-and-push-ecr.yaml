@@ -1,0 +1,56 @@
+name: Build and Push Images to ECR
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/front-end/**"
+      - "app/catalogue/docker/catalogue-db/**"
+      - ".github/workflows/build-and-push-ecr.yml"
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 746227194679.dkr.ecr.us-east-1.amazonaws.com
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::746227194679:role/GitHubActionsEcrPushRole
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push catalogue-db
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -t $ECR_REGISTRY/catalogue-db:latest \
+            -f app/catalogue/docker/catalogue-db/Dockerfile \
+            app/catalogue/docker/catalogue-db \
+            --push
+
+      - name: Build and push front-end
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -t $ECR_REGISTRY/front-end:latest \
+            -f app/front-end/Dockerfile \
+            app/front-end \
+            --push
