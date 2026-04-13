@@ -30,16 +30,16 @@ CREATE TABLE IF NOT EXISTS sock_tag (
 );
 
 INSERT INTO sock (`sock_id`, `name`, `description`, `image_url_1`, `image_url_2`, `price`, `count`) VALUES
-('6d62d909-f957-430e-8689-b5129c0bb75e', 'Bananas', 'Fresh bananas sold by the bunch. Great for breakfast, smoothies, and snacks.', 'https://picsum.photos/seed/banana1/400', 'https://picsum.photos/seed/banana2/400', 2.99, 120),
-('a0a4f044-b040-410d-8ead-4de0446aec7e', 'Milk', 'Fresh whole milk, ideal for tea, coffee, cereal, and cooking.', 'https://picsum.photos/seed/milk1/400', 'https://picsum.photos/seed/milk2/400', 1.99, 90),
-('808a2de1-1aaa-4c25-a9b9-6612e8f29a38', 'Brown Bread', 'Soft and healthy brown bread loaf, perfect for sandwiches and toast.', 'https://picsum.photos/seed/bread1/400', 'https://picsum.photos/seed/bread2/400', 1.75, 75),
-('510a0d7e-8e83-4193-b483-e27e09ddc34d', 'Eggs', 'Farm fresh eggs, rich in protein and perfect for breakfast or baking.', 'https://picsum.photos/seed/eggs1/400', 'https://picsum.photos/seed/eggs2/400', 3.49, 200),
-('03fef6ac-1896-4ce8-bd69-b798f85c6e0b', 'Olive Oil', 'Premium extra virgin olive oil for salads, cooking, and everyday kitchen use.', 'https://picsum.photos/seed/oil1/400', 'https://picsum.photos/seed/oil2/400', 9.99, 35),
-('d3588630-ad8e-49df-bbd7-3167f7efb246', 'Tomatoes', 'Juicy red tomatoes, ideal for salads, sauces, and daily cooking.', 'https://picsum.photos/seed/tomato1/400', 'https://picsum.photos/seed/tomato2/400', 2.49, 140),
-('819e1fbf-8b7e-4f6d-811f-693534916a8b', 'Rice', 'Long grain rice, a pantry staple for family meals and side dishes.', 'https://picsum.photos/seed/rice1/400', 'https://picsum.photos/seed/rice2/400', 6.99, 60),
-('zzz4f044-b040-410d-8ead-4de0446aec7e', 'Chicken Fillet', 'Fresh chicken fillet, trimmed and ready for grilling, roasting, or pan cooking.', 'https://picsum.photos/seed/chicken1/400', 'https://picsum.photos/seed/chicken2/400', 8.50, 50),
-('3395a43e-2d88-40de-b95f-e00e1502085b', 'Apples', 'Crisp sweet apples, perfect for snacking, lunch boxes, and desserts.', 'https://picsum.photos/seed/apple1/400', 'https://picsum.photos/seed/apple2/400', 3.25, 110),
-('837ab141-399e-4c1f-9abc-bace40296bac', 'Yogurt', 'Creamy natural yogurt, delicious on its own or with fruit and honey.', 'https://picsum.photos/seed/yogurt1/400', 'https://picsum.photos/seed/yogurt2/400', 2.20, 85);
+('6d62d909-f957-430e-8689-b5129c0bb75e', 'Bananas', 'Fresh bananas sold by the bunch. Great for breakfast, smoothies, and snacks.', '/images/banana.jpg', '/images/banana-2.jpg', 2.99, 120),
+('a0a4f044-b040-410d-8ead-4de0446aec7e', 'Milk', 'Fresh whole milk, ideal for tea, coffee, cereal, and cooking.', '/images/milk.jpg', '/images/milk-2.jpg', 1.99, 90),
+('808a2de1-1aaa-4c25-a9b9-6612e8f29a38', 'Brown Bread', 'Soft and healthy brown bread loaf, perfect for sandwiches and toast.', '/images/bread.jpg', '/images/bread-2.jpg', 1.75, 75),
+('510a0d7e-8e83-4193-b483-e27e09ddc34d', 'Eggs', 'Farm fresh eggs, rich in protein and perfect for breakfast or baking.', '/images/eggs.jpg', '/images/eggs-2.jpg', 3.49, 200),
+('03fef6ac-1896-4ce8-bd69-b798f85c6e0b', 'Olive Oil', 'Premium extra virgin olive oil for salads, cooking, and everyday kitchen use.', '/images/olive-oil.jpg', '/images/olive-oil-2.jpg', 9.99, 35),
+('d3588630-ad8e-49df-bbd7-3167f7efb246', 'Tomatoes', 'Juicy red tomatoes, ideal for salads, sauces, and daily cooking.', '/images/tomato.jpg', '/images/tomato-2.jpg', 2.49, 140),
+('819e1fbf-8b7e-4f6d-811f-693534916a8b', 'Rice', 'Long grain rice, a pantry staple for family meals and side dishes.', '/images/rice.jpg', '/images/rice-2.jpg', 6.99, 60),
+('zzz4f044-b040-410d-8ead-4de0446aec7e', 'Chicken Fillet', 'Fresh chicken fillet, trimmed and ready for grilling, roasting, or pan cooking.', '/images/chicken.jpg', '/images/chicken-2.jpg', 8.50, 50),
+('3395a43e-2d88-40de-b95f-e00e1502085b', 'Apples', 'Crisp sweet apples, perfect for snacking, lunch boxes, and desserts.', '/images/apple.jpg', '/images/apple-2.jpg', 3.25, 110),
+('837ab141-399e-4c1f-9abc-bace40296bac', 'Yogurt', 'Creamy natural yogurt, delicious on its own or with fruit and honey.', '/images/yogurt.jpg', '/images/yogurt-2.jpg', 2.20, 85);
 
 INSERT INTO tag (name) VALUES ('fruit');
 INSERT INTO tag (name) VALUES ('dairy');
