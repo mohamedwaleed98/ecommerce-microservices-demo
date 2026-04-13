@@ -42,6 +42,20 @@ jobs:
             --region "$AWS_REGION" \
             --name "$CLUSTER_NAME"
 
+      - name: Apply namespace
+        run: |
+          kubectl apply -f deploy/kubernetes/namespace.yaml
+
+      - name: Apply base manifests
+        run: |
+          kubectl apply -f deploy/kubernetes/catalogue-db-deployment.yaml
+          kubectl apply -f deploy/kubernetes/catalogue-db-service.yaml
+          kubectl apply -f deploy/kubernetes/catalogue-deployment.yaml
+          kubectl apply -f deploy/kubernetes/catalogue-service.yaml
+          kubectl apply -f deploy/kubernetes/front-end-deployment.yaml
+          kubectl apply -f deploy/kubernetes/front-end-service.yaml
+          kubectl apply -f deploy/kubernetes/ingress.yaml
+
       - name: Update catalogue-db image
         run: |
           kubectl set image deployment/catalogue-db \
@@ -54,9 +68,14 @@ jobs:
             front-end=$ECR_REGISTRY/front-end:latest \
             -n $NAMESPACE
 
+      - name: Restart catalogue deployment
+        run: |
+          kubectl rollout restart deployment/catalogue -n $NAMESPACE
+
       - name: Wait for rollouts
         run: |
           kubectl rollout status deployment/catalogue-db -n $NAMESPACE --timeout=300s
+          kubectl rollout status deployment/catalogue -n $NAMESPACE --timeout=300s
           kubectl rollout status deployment/front-end -n $NAMESPACE --timeout=300s
 
       - name: Show current resources
