@@ -8,6 +8,7 @@ on:
       - "app/front-end/**"
       - "app/catalogue/**"
       - ".github/workflows/build-and-push-ecr.yaml"
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -38,7 +39,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Check if catalogue-db image tag exists
+        id: check_catalogue_db
+        run: |
+          if aws ecr describe-images \
+            --repository-name catalogue-db \
+            --image-ids imageTag=$IMAGE_TAG \
+            --region $AWS_REGION > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push catalogue-db
+        if: steps.check_catalogue_db.outputs.exists == 'false'
         run: |
           docker buildx build \
             --platform linux/amd64 \
@@ -47,7 +61,24 @@ jobs:
             app/catalogue/docker/catalogue-db \
             --push
 
+      - name: Skip catalogue-db push if tag exists
+        if: steps.check_catalogue_db.outputs.exists == 'true'
+        run: echo "catalogue-db:$IMAGE_TAG already exists, skipping push"
+
+      - name: Check if catalogue image tag exists
+        id: check_catalogue
+        run: |
+          if aws ecr describe-images \
+            --repository-name catalogue \
+            --image-ids imageTag=$IMAGE_TAG \
+            --region $AWS_REGION > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push catalogue
+        if: steps.check_catalogue.outputs.exists == 'false'
         run: |
           docker buildx build \
             --platform linux/amd64 \
@@ -56,7 +87,24 @@ jobs:
             app/catalogue \
             --push
 
+      - name: Skip catalogue push if tag exists
+        if: steps.check_catalogue.outputs.exists == 'true'
+        run: echo "catalogue:$IMAGE_TAG already exists, skipping push"
+
+      - name: Check if front-end image tag exists
+        id: check_frontend
+        run: |
+          if aws ecr describe-images \
+            --repository-name front-end \
+            --image-ids imageTag=$IMAGE_TAG \
+            --region $AWS_REGION > /dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build and push front-end
+        if: steps.check_frontend.outputs.exists == 'false'
         run: |
           docker buildx build \
             --platform linux/amd64 \
@@ -64,3 +112,7 @@ jobs:
             -f app/front-end/Dockerfile \
             app/front-end \
             --push
+
+      - name: Skip front-end push if tag exists
+        if: steps.check_frontend.outputs.exists == 'true'
+        run: echo "front-end:$IMAGE_TAG already exists, skipping push"
