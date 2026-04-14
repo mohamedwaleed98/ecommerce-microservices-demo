@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: catalogue
-          image: 746227194679.dkr.ecr.us-east-1.amazonaws.com/catalogue:latest
+          image: 746227194679.dkr.ecr.us-east-1.amazonaws.com/catalogue:17ad4881c9014688f94bac844f8f9ecbdfef9713
           imagePullPolicy: Always
           ports:
             - containerPort: 80

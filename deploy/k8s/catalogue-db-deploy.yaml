@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: catalogue-db
-          image: 746227194679.dkr.ecr.us-east-1.amazonaws.com/catalogue-db:latest
+          image: 746227194679.dkr.ecr.us-east-1.amazonaws.com/catalogue-db:17ad4881c9014688f94bac844f8f9ecbdfef9713
           imagePullPolicy: Always
           env:
             - name: MYSQL_ROOT_PASSWORD
