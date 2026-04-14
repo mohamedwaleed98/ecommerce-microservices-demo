@@ -7,7 +7,7 @@ on:
     paths:
       - "app/front-end/**"
       - "app/catalogue/**"
-      - ".github/workflows/build-and-push-ecr.yml"
+      - ".github/workflows/build-and-push-ecr.yaml"
 
 permissions:
   id-token: write
