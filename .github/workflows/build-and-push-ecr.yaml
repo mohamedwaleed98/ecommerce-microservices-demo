@@ -16,6 +16,7 @@ permissions:
 env:
   AWS_REGION: us-east-1
   ECR_REGISTRY: 746227194679.dkr.ecr.us-east-1.amazonaws.com
+  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   build-and-push:
@@ -41,7 +42,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            -t $ECR_REGISTRY/catalogue-db:latest \
+            -t $ECR_REGISTRY/catalogue-db:$IMAGE_TAG \
             -f app/catalogue/docker/catalogue-db/Dockerfile \
             app/catalogue/docker/catalogue-db \
             --push
@@ -50,7 +51,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            -t $ECR_REGISTRY/catalogue:latest \
+            -t $ECR_REGISTRY/catalogue:$IMAGE_TAG \
             -f app/catalogue/docker/catalogue/Dockerfile \
             app/catalogue \
             --push
@@ -59,7 +60,7 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            -t $ECR_REGISTRY/front-end:latest \
+            -t $ECR_REGISTRY/front-end:$IMAGE_TAG \
             -f app/front-end/Dockerfile \
             app/front-end \
             --push

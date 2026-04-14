@@ -1,96 +1,53 @@
-name: Deploy to EKS
+name: Update Kubernetes Manifests
 
 on:
-  workflow_dispatch:
   workflow_run:
     workflows: ["Build and Push Images to ECR"]
     types:
       - completed
+  workflow_dispatch:
 
 permissions:
-  id-token: write
-  contents: read
-
-env:
-  AWS_REGION: us-east-1
-  CLUSTER_NAME: ecommerce-main-eks
-  ECR_REGISTRY: 746227194679.dkr.ecr.us-east-1.amazonaws.com
-  NAMESPACE: ecommerce
+  contents: write
 
 jobs:
-  deploy:
+  update-manifests:
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
+    env:
+      ECR_REGISTRY: 746227194679.dkr.ecr.us-east-1.amazonaws.com
+      IMAGE_TAG: ${{ github.event.workflow_run.head_sha || github.sha }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::746227194679:role/GitHubActionsEcrPushRole
-          aws-region: ${{ env.AWS_REGION }}
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: latest
-
-      - name: Update kubeconfig
+      - name: Update catalogue-db image tag
         run: |
-          aws eks update-kubeconfig \
-            --region "$AWS_REGION" \
-            --name "$CLUSTER_NAME"
+          sed -i "s|image: .*catalogue-db:.*|image: $ECR_REGISTRY/catalogue-db:$IMAGE_TAG|g" deploy/k8s/catalogue-db-deploy.yaml
 
-      - name: Debug manifest files
+      - name: Update catalogue image tag
         run: |
-          find deploy -maxdepth 3 -type f | sort
+          sed -i "s|image: .*catalogue:.*|image: $ECR_REGISTRY/catalogue:$IMAGE_TAG|g" deploy/k8s/catalogue-deploy.yaml
 
-      - name: Apply namespace
+      - name: Update front-end image tag
         run: |
-          kubectl apply -f deploy/k8s/namespace.yaml
+          sed -i "s|image: .*front-end:.*|image: $ECR_REGISTRY/front-end:$IMAGE_TAG|g" deploy/k8s/frontend-deploy.yaml
 
-      - name: Apply base manifests
+      - name: Show changed files
         run: |
-          kubectl apply -f deploy/k8s/catalogue-db-deployment.yaml
-          kubectl apply -f deploy/k8s/catalogue-db-service.yaml
-          kubectl apply -f deploy/k8s/catalogue-deployment.yaml
-          kubectl apply -f deploy/k8s/catalogue-service.yaml
-          kubectl apply -f deploy/k8s/frontend-deployment.yaml
-          kubectl apply -f deploy/k8s/frontend-service.yaml
-          kubectl apply -f deploy/k8s/ingress.yaml
+          git diff -- deploy/k8s/
 
-      - name: Update catalogue-db image
+      - name: Commit updated manifests
         run: |
-          kubectl set image deployment/catalogue-db \
-            catalogue-db=$ECR_REGISTRY/catalogue-db:latest \
-            -n $NAMESPACE
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add deploy/k8s/catalogue-db-deploy.yaml deploy/k8s/catalogue-deploy.yaml deploy/k8s/frontend-deploy.yaml
+          git diff --cached --quiet || git commit -m "Update image tags to $IMAGE_TAG"
 
-      - name: Update catalogue image
+      - name: Push changes
         run: |
-          kubectl set image deployment/catalogue \
-            catalogue=$ECR_REGISTRY/catalogue:latest \
-            -n $NAMESPACE
-
-      - name: Update front-end image
-        run: |
-          kubectl set image deployment/front-end \
-            front-end=$ECR_REGISTRY/front-end:latest \
-            -n $NAMESPACE
-
-      - name: Restart front-end
-        run: |
-          kubectl rollout restart deployment/front-end -n $NAMESPACE
-
-      - name: Wait for rollouts
-        run: |
-          kubectl rollout status deployment/catalogue-db -n $NAMESPACE --timeout=300s
-          kubectl rollout status deployment/catalogue -n $NAMESPACE --timeout=300s
-          kubectl rollout status deployment/front-end -n $NAMESPACE --timeout=300s
-
-      - name: Show current resources
-        run: |
-          kubectl get pods -n $NAMESPACE
-          kubectl get svc -n $NAMESPACE
-          kubectl get ingress -n $NAMESPACE
+          git push origin main
